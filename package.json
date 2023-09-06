@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies" : {
+    "apollo-server" : "^3.12.1",
+    "apollo-server-errors": "^3.3.1",
     "apollo-server-express": "^3.12.1",
     "bcrypt": "^5.1.1",
     "colors": "^1.4.0",

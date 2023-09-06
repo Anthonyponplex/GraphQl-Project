@@ -1,23 +1,23 @@
-const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const connectDB = require("./config/db");
 
-const port = process.env.PORT || 5000;
-const app = express();
+const typeDefs = require("./graphql/typeDefs");
+const resolvers = require("./graphql/resolvers");
 
-// connect to database
-connectDB();
+const MONGODB = process.env.MONGO_URI;
 
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    graphiql: process.env.NODE_ENV === "development",
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+mongoose
+  .connect(MONGODB, { useNewUrlParser: true })
+  .then(() => {
+    console.log("MongoDB Connected");
+    return server.listen({ port: process.env.PORT });
   })
-);
-
-app.listen(port, console.log(`Server running on port ${port}`));
+  .then((res) => {
+    console.log(`Server running at ${res.url}`);
+  });
